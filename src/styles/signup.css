@@ -1,0 +1,42 @@
+#btn {
+  background-color: orange;
+  height: 60px;
+}
+
+.signIn_link {
+  color: orange;
+}
+
+.warning_message {
+  color: orange;
+}
+
+.sign_up_header {
+  color: orange;
+}
+
+#logout_btn {
+  border: 1px solid orange;
+  outline: none;
+  color: orange;
+}
+#login_btn {
+  border: 1px solid orange;
+  color: orange;
+  outline: none;
+}
+
+#login_btn:hover {
+  border: none;
+  color: white;
+}
+
+#logout_btn:hover {
+  border: none;
+  color: white;
+}
+
+#sign_Up_input {
+  height: 60px;
+  border: 1px solid orange;
+}
