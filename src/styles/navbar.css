@@ -7,7 +7,10 @@ nav {
 
 @media only screen and (max-width: 480px) {
   form {
-    /* background-color: lightgreen; */
     justify-content: space-around;
   }
+}
+
+.navBgColor {
+  background-color: #f45679 !important;
 }

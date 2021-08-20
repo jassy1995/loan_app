@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import Navbar from "../components/navbar";
+import "../styles/form.css";
 
-const initialState = {
-  first_name: "",
-  last_name: "",
-  phone: "",
-  address: "",
-  email: "",
-  password: "",
-  confirmPassword: "",
-};
 const Register = () => {
-  let [state, setState] = useState(initialState);
+  let [errorMessage, setErrorMessage] = useState(true);
+  const {
+    register,
+    handleSubmit: submitLoginForm,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm();
+  const password = watch("password");
+
   const history = useHistory();
 
+  //direct the user to dashboard once is still loggedIn
   useEffect(() => {
     let user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -22,157 +26,253 @@ const Register = () => {
     }
   });
 
-  const handleChange = (e) => {
-    let name = e.target.name;
-    let value = e.target.value;
-    setState({ ...state, [name]: value });
+  //loading spinner
+  const loadingMessage = () => {
+    return (
+      <div className="d-flex justify-content-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const {
-      first_name,
-      last_name,
-      phone,
-      address,
-      email,
-      password,
-      confirmPassword,
-    } = state;
-    const newUserData = {
-      first_name,
-      last_name,
-      phone,
-      address,
-      email,
-      password,
-      confirmPassword,
-    };
-    console.log(newUserData);
+  //check confirm password field if it is the same with password field
+  const checkPassword = (confirmPassword) => password === confirmPassword;
+
+  //submit the data to backend
+  const submitForm = (newUserData) => {
     axios
-      .post("/register", newUserData)
+      .post("/login", newUserData)
       .then((res) => {
         if (res.data) {
-          setState({
-            first_name: "",
-            last_name: "",
-            phone: "",
-            address: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          });
+          setErrorMessage(true);
           history.push("/");
+          reset();
         }
-        console.log(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
+    setErrorMessage(false);
+    console.log(newUserData);
   };
-  const {
-    first_name,
-    last_name,
-    phone,
-    address,
-    email,
-    password,
-    confirmPassword,
-  } = state;
+
   return (
     <>
-      <div className="container mt-sm-2 mt-md-5">
-        <div className="row p-2 mx-auto text-center">
-          <div className=" text-center  col-sm-12 col-md-6 mb-3">
-            <img
-              src={"./download.jpeg"}
-              alt="not exist"
-              className="img-fluid rounded  mx-auto block h-100"
-            />
+      <Navbar />
+      <div className="container  bgColor p-5 mt-2">
+        <form
+          className="bg-light p-2 shadow rounded"
+          onSubmit={submitLoginForm(submitForm)}
+          noValidate
+          autoComplete="off"
+        >
+          <h2 className="mb-3">Register here</h2>
+          <div className="row mb-4">
+            <div className="col-sm-4 ">
+              {!errors.first_name ? (
+                <label>first name</label>
+              ) : (
+                errors.first_name &&
+                errors.first_name.type === "required" && (
+                  <small className="text-danger">first_name is require.</small>
+                )
+              )}
+              <input
+                {...register("first_name", { required: true })}
+                type="text"
+                className="form-control "
+                placeholder="enter your first name"
+                aria-label="name"
+              />
+            </div>
+            <div className="col-sm-4">
+              {!errors.last_name ? (
+                <label>last name</label>
+              ) : (
+                errors.last_name &&
+                errors.last_name.type === "required" && (
+                  <small className="text-danger">last_name is require.</small>
+                )
+              )}
+              <input
+                {...register("last_name", { required: true })}
+                type="text"
+                name="last_name"
+                className="form-control formInput"
+                placeholder="enter your last name"
+                aria-label="name"
+              />
+            </div>
+            <div className="col-sm-4">
+              {!errors.phone ? (
+                <label>phone number</label>
+              ) : (
+                errors.phone &&
+                errors.phone.type === "required" && (
+                  <small className="text-danger">
+                    phone number is require.
+                  </small>
+                )
+              )}
+              <input
+                {...register("phone", { required: true })}
+                type="text"
+                className="form-control formInput"
+                placeholder="enter your phone number"
+                aria-label="phone"
+              />
+            </div>
           </div>
-          <div className=" text-center  col-sm-12 col-md-6">
-            <form className="row" noValidate onSubmit={handleSubmit}>
-              <div className=" col-md-6 mb-3 ">
-                <input
-                  type="text"
-                  name="first_name"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="first name"
-                  onChange={handleChange}
-                  value={first_name}
-                />
-              </div>
-              <div className="col-md-6 mb-3">
-                <input
-                  type="text"
-                  name="last_name"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="last name"
-                  onChange={handleChange}
-                  value={last_name}
-                />
-              </div>
-              <div className=" mb-3 col-12">
-                <input
-                  type="text"
-                  name="phone"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="phone"
-                  onChange={handleChange}
-                  value={phone}
-                />
-              </div>
-              <div className=" mb-3 col-12">
-                <input
-                  type="text"
-                  name="address"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="address"
-                  onChange={handleChange}
-                  value={address}
-                />
-              </div>
-              <div className=" mb-3 col-12">
-                <input
-                  type="text"
-                  name="email"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="email"
-                  onChange={handleChange}
-                  value={email}
-                />
-              </div>
-              <div className=" mb-3 col-12">
-                <input
-                  type="text"
-                  name="password"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="password"
-                  onChange={handleChange}
-                  value={password}
-                />
-              </div>
-              <div className=" mb-3 col-12">
-                <input
-                  type="text"
-                  name="confirmPassword"
-                  className="form-control rounded-pill border-warning fs-4"
-                  placeholder="confirm password"
-                  onChange={handleChange}
-                  value={confirmPassword}
-                />
-              </div>
-              <div>
-                <button
-                  type="submit"
-                  className="btn btn-warning btn-gradient w-75 fs-4 text-light rounded-pill"
-                >
-                  submit
-                </button>
-              </div>
-            </form>
+          <div className="row mb-4">
+            <div className="col-sm-8">
+              {!errors.address ? (
+                <label>residential address</label>
+              ) : (
+                errors.address &&
+                errors.address.type === "required" && (
+                  <small className="text-danger">address is require.</small>
+                )
+              )}
+              <input
+                {...register("address", { required: true })}
+                type="text"
+                className="form-control formInput"
+                placeholder="enter your residential address"
+                aria-label="address"
+              />
+            </div>
+            <div className="col-sm-2">
+              {!errors.city ? (
+                <label>city</label>
+              ) : (
+                errors.city &&
+                errors.city.type === "required" && (
+                  <small className="text-danger">city is require.</small>
+                )
+              )}
+              <input
+                {...register("city", { required: true })}
+                type="text"
+                className="form-control formInput"
+                placeholder="city name"
+                aria-label="city"
+              />
+            </div>
+            <div className="col-sm-2">
+              {!errors.states ? (
+                <label>state</label>
+              ) : (
+                errors.states &&
+                errors.states.type === "required" && (
+                  <small className="text-danger">your state is require.</small>
+                )
+              )}
+              <input
+                {...register("states", { required: true })}
+                type="text"
+                className="form-control formInput"
+                placeholder="state"
+                aria-label="state"
+              />
+            </div>
           </div>
-        </div>
+          <div className="row mb-4">
+            <div className="col-sm-4">
+              {!errors.email ? (
+                <label>email address</label>
+              ) : (
+                errors.email &&
+                errors.email.type === "required" && (
+                  <small className="text-danger text-center">
+                    Email is require
+                  </small>
+                )
+              )}
+              {!errors.email
+                ? ""
+                : errors.email &&
+                  errors.email.type === "pattern" && (
+                    <small className="text-danger pb-2">
+                      invalid email address
+                    </small>
+                  )}
+              <input
+                {...register("email", {
+                  required: true,
+                  pattern: /^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i,
+                })}
+                type="text"
+                name="email"
+                className="form-control formInput"
+                placeholder="enter your first name"
+                aria-label="name"
+              />
+            </div>
+            <div className="col-sm-4">
+              {!errors.password ? (
+                <label>create password</label>
+              ) : (
+                errors.password &&
+                errors.password.type === "required" && (
+                  <small className="text-danger">password is require.</small>
+                )
+              )}
+              <input
+                {...register("password", { required: true })}
+                type="password"
+                className="form-control formInput"
+                placeholder="enter your password"
+                aria-label="password"
+              />
+            </div>
+            <div className="col-sm-4 mb-3">
+              {!errors.confirmPassword ? (
+                <label>confirm password</label>
+              ) : (
+                errors.confirmPassword &&
+                errors.confirmPassword.type === "required" && (
+                  <small className="text-danger text-center">
+                    confirmPassword is require
+                  </small>
+                )
+              )}
+              {!errors.confirmPassword
+                ? ""
+                : errors.confirmPassword &&
+                  errors.confirmPassword.type === "validate" && (
+                    <small className="text-danger pb-2">
+                      password does not match
+                    </small>
+                  )}
+              <input
+                {...register("confirmPassword", {
+                  required: true,
+                  validate: checkPassword,
+                })}
+                type="password"
+                className="form-control formInput"
+                placeholder="confirm password"
+                aria-label="confirmPassword"
+              />
+            </div>
+          </div>
+          <div className="text-sm-center">
+            <button
+              type="submit"
+              className="signUpButton rounded col-sm-6 mb-3"
+            >
+              <span>
+                {!errorMessage ? (
+                  loadingMessage()
+                ) : (
+                  <span className="fs-4">Submit</span>
+                )}
+              </span>
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );

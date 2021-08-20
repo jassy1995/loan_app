@@ -6,6 +6,7 @@ import Dashboard from "./components/dashboard";
 import Register from "./components/register";
 import Navbar from "./components/navbar";
 import Payment from "./components/payment";
+import Home from "./components/home";
 
 const App = () => {
   let [currentUser, setCurrentUser] = useState({});
@@ -20,9 +21,10 @@ const App = () => {
   return (
     <StoreContext.Provider value={{ setUser, currentUser }}>
       <Router>
-        <Navbar currentUser={currentUser} />
+        {/* <Navbar currentUser={currentUser} /> */}
         <Switch>
           <Route exact path="/" component={Login} />
+          <Route exact path="/home" component={Home} />
           <Route path="/dashboard" component={Dashboard} />
           <Route exact path="/loan/:loanId" component={Payment} />
           <Route exact path="/register" component={Register} />

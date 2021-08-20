@@ -1,0 +1,36 @@
+.signUpButton {
+  width: 8em;
+  background-color: #f45679;
+  outline-color: aliceblue;
+  border: 1px solid white;
+  color: white;
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.bgColor {
+  background-color: #e4ebf1;
+  border-radius: 12px;
+}
+
+.loginButton {
+  background-color: #f45679;
+  color: white;
+  height: 2.6em;
+  outline: none;
+  border: none;
+}
+
+.form-control {
+  height: 2.6em !important;
+  background-color: rgb(240, 238, 238) !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
+
+.form-control:focus {
+  height: 2.6em !important;
+  background-color: rgb(240, 238, 238) !important;
+  border: none !important;
+  border-radius: 6px !important;
+}
