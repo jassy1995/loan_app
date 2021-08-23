@@ -66,7 +66,7 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="navbar navbar-expand-sm navbar-light mb-5 navBgColor">
+    <nav className="navbar navbar-expand-sm navbar-light fixed-top navBgColor p-4">
       <div className="container-fluid">
         <button
           className="navbar-toggler"

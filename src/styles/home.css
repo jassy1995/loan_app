@@ -1,0 +1,187 @@
+@import url("https://fonts.googleapis.com/css?family=Poppins:300,400,500,700&display=swap");
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  scroll-behavior: smooth;
+}
+
+p {
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+section h1 {
+  padding: 60px 0px 0px;
+  text-align: center;
+}
+
+#home {
+  margin-top: 85px !important;
+}
+.bgColor {
+  background-color: #f45679 !important;
+  color: #fff;
+  text-align: center !important;
+}
+
+.icon-image {
+  color: #fff !important;
+  width: 80px !important;
+  height: 80px !important;
+}
+
+.card-title {
+  font-size: xx-large !important;
+  color: rgb(189, 16, 82);
+}
+
+.card-text {
+  font-size: large !important;
+}
+
+#centralize-card-item {
+  text-align: center !important;
+  justify-content: center;
+}
+
+.apply-button {
+  padding: 12px;
+  background-color: #fff;
+  color: #f45679;
+  outline: none;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  font-size: 22px;
+  width: 280px;
+  margin-top: 50px;
+}
+
+.font10 {
+  font-size: 20px !important;
+  text-align: center !important;
+  padding-bottom: 25px;
+}
+
+.layer {
+  background-color: rgba(52, 73, 94, 0.7);
+  height: 600px;
+}
+
+#home .centerall {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  color: #fff;
+}
+
+#team .icons {
+  position: relative;
+  text-align: center;
+  font-size: 28px;
+  color: #fff;
+  top: 60%;
+  left: 0%;
+}
+
+#team .icons .fab {
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+#team .content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #dd5b6c5e;
+  overflow: hidden;
+  width: 100%;
+  height: 0;
+  transition: 0.5s ease;
+}
+
+#team .col-md-4:hover .content {
+  height: 100%;
+}
+
+#team .content p {
+  color: #fff;
+  font-size: 34px;
+  position: absolute;
+  text-transform: uppercase;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+#testimonial .bg-customcolor {
+  background: #f45679;
+  color: #fff;
+  height: 100%;
+}
+
+#testimonial h4 {
+  font-size: 38px;
+  font-weight: 700;
+  padding-top: 80px;
+}
+
+footer {
+  background: #f45679;
+  margin-top: 30px;
+  padding: 18px;
+}
+
+@media (max-width: 992px) {
+  #testimonial h4 {
+    font-size: 24px;
+    padding-top: 10px;
+  }
+  #testimonial p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .font10 {
+    padding: 0;
+    margin: 0;
+  }
+  section h1 {
+    padding: 30px 0px 0px;
+  }
+
+  #service h3,
+  #service p,
+  footer .text-left,
+  footer .text-right,
+  .mobile-center {
+    text-align: center !important;
+  }
+  #service .fas,
+  #service .fab {
+    display: block;
+    text-align: center;
+  }
+  #team .col-md-4 {
+    margin-top: 40px;
+  }
+  #service h3,
+  .mobile-text {
+    padding-top: 10px;
+  }
+}
