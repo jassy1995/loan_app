@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import Navbar from "../components/navbar";
+import Navbar from "../user/navbar";
 import Swal from "sweetalert2";
-import "../styles/form.css";
 
 const Register = () => {
-  let [errorMessage, setErrorMessage] = useState(true);
+  let [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit: submitLoginForm,
@@ -16,16 +15,7 @@ const Register = () => {
     reset,
   } = useForm();
   const password = watch("password");
-
   const history = useHistory();
-
-  //direct the user to dashboard once is still loggedIn
-  useEffect(() => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    if (user) {
-      history.push("/dashboard");
-    }
-  });
 
   //request alert
   const proceedToLogin = () => {
@@ -82,15 +72,16 @@ const Register = () => {
 
   //submit the data to backend
   const submitForm = (newUserData) => {
+    setIsLoading(true);
     axios
-      .post("/register", newUserData)
+      .post("http://localhost:3001/user/register", newUserData)
       .then((res) => {
         console.log(res);
         if (res.data) {
           let message = res.data.successResponse || res.data.errorResponse;
           let messageIcon = res.data.successResponse ? "success" : "warning";
           responseMessage(message, messageIcon);
-          setErrorMessage(true);
+          setIsLoading(false);
           setTimeout(() => {
             if (res.data.successResponse) {
               proceedToLogin();
@@ -101,25 +92,26 @@ const Register = () => {
       .catch((err) => {
         console.log(err);
       });
-    setErrorMessage(false);
     console.log(newUserData);
   };
 
   return (
     <>
       <Navbar />
-      <div style={{ backgroundColor: "#e4ebf1", height: "100%" }}>
+      <div style={{ backgroundColor: "#e4ebf1" }} className="mb-4">
         <div
-          className="container  pt-5 pb-5 mt-5 margin-top"
+          className="container  pt-md-5 pb-5 mt-5 margin-top"
           style={{ backgroundColor: "#e4ebf1" }}
         >
           <form
-            className="bg-light p-2 shadow rounded mt-4"
+            className="bg-light shadow rounded mt-md-4 pt-5 pr-2 pl-2"
             onSubmit={submitLoginForm(submitForm)}
             noValidate
             autoComplete="off"
           >
-            <h2 className="mb-3">Register here</h2>
+            <h2 className="mb-2 d-none d-md-block fst-italic font-monospace">
+              Register here
+            </h2>
             <div className="row mb-4">
               <div className="col-sm-4 ">
                 {!errors.first_name ? (
@@ -282,7 +274,7 @@ const Register = () => {
                   aria-label="password"
                 />
               </div>
-              <div className="col-sm-4 mb-3">
+              <div className="col-sm-4 mb-2">
                 {!errors.confirmPassword ? (
                   <label>confirm password</label>
                 ) : (
@@ -313,13 +305,26 @@ const Register = () => {
                 />
               </div>
             </div>
+            <div className="form-group">
+              <div className="custom-control custom-checkbox">
+                <input
+                  {...register("role")}
+                  type="checkbox"
+                  className="custom-control-input formCheckBox"
+                  id="role"
+                />
+                <label className="custom-control-label" htmlFor="role">
+                  Register me as Admin
+                </label>
+              </div>
+            </div>
             <div className="text-sm-center">
               <button
                 type="submit"
-                className="signUpButton rounded col-sm-6 mb-3"
+                className="signUpButton rounded col-sm-6 mb-3 pt-0 mt-0"
               >
                 <span>
-                  {!errorMessage ? (
+                  {isLoading ? (
                     loadingMessage()
                   ) : (
                     <span className="fs-4">Submit</span>
@@ -330,16 +335,14 @@ const Register = () => {
           </form>
         </div>
       </div>
-      <footer className=" mt-0 mb-0 p-4" style={{ height: "87px" }}>
-        <div className="container">
-          <div className="row">
-            <div className="col-md-8">
-              <h6 className="text-left pt-3 text-light">© Copyrights 2021</h6>
-            </div>
-            <div className="col-md-4 float-right text-right">
-              <h6 className="text-left pt-3 text-light">
-                Contact : +1248143274300
-              </h6>
+      <footer className="fixed-bottom mt-5 bg-default ">
+        <div className="container-fluid">
+          <div className="d-flex align-items-center justify-content-between small">
+            <div className="text-light">Copyright &copy;loan_app 2021</div>
+            <div>
+              <Link to={"/home"} className="text-light">
+                Contact : +2348143274300
+              </Link>
             </div>
           </div>
         </div>

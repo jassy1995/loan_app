@@ -1,15 +1,20 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import "../styles/home.css";
-import bgImage from "../assets/img/4.jpg";
-import Navbar from "./navbar";
+import "../../styles/home.css";
+import bgImage from "../../assets/img/4.jpg";
+import Navbar from "../user/navbar";
+import { getUser } from "../../utils/userFunctiom";
 
 const Home = () => {
   const history = useHistory();
+  const user = getUser();
+  const isLoggIn = localStorage.getItem("accessToken") || "";
   const applyForLoan = () => {
-    let user = JSON.parse(localStorage.getItem("user"));
-    if (user !== null && user !== "") history.push("/dashboard");
-    else history.push("/");
+    if (user.role === "admin" || user.role === "user" || isLoggIn) {
+      history.push("/dashboard/getloan");
+    } else {
+      history.push("/");
+    }
   };
 
   let listIcon = (
@@ -42,7 +47,7 @@ const Home = () => {
       <Navbar />
       <section
         id="home"
-        className="mt-5"
+        className="mt-"
         style={{
           background: `url(${bgImage})`,
           backgroundSize: "cover",
@@ -165,7 +170,6 @@ const Home = () => {
       </section>
       <section id="team">
         <h1>Team</h1>
-        {/* <hr /> */}
         <p className="font10">
           Here are the developer that work on this platform.
         </p>
@@ -223,7 +227,7 @@ const Home = () => {
               <div className="bg-customcolor">
                 <h4 className="text-center text-light">Mark Zuckerberg</h4>
                 <p className="text-center pl-3 pr-3">
-                  What's an awesome platform,easy to use,fast navigation,bud
+                  What's an awesome platform,easy to use,fast navigation,bug
                   free and quick approval of loan request.Dear friend,you are
                   missing something if you are yet to use this platform.
                 </p>
@@ -246,7 +250,7 @@ const Home = () => {
                 <p className="text-center pl-3 pr-3">
                   Hey friends,i have never use this kind of platform before,it
                   is descriptive,loading fast,good network available on it and a
-                  most quick response from server whenever i request for loan.
+                  quick response for my loan request reached me instantly.
                 </p>
               </div>
             </div>

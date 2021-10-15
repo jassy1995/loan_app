@@ -1,11 +1,16 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .signUpButton {
-  width: 8em;
   background-color: #f45679;
   outline-color: aliceblue;
   border: 1px solid white;
   color: white;
-  padding: 10px;
-  border-radius: 20px;
+  padding: 5px;
+  border-radius: 10px;
 }
 
 .bgColor {
