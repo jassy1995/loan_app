@@ -1,14 +1,11 @@
-import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
-// import { useSelector, useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext, useLayoutEffect } from "react";
+import { Link } from "react-router-dom";
 import { Formatter } from "../../utils/currency-formatter";
 import { customAxios } from "../../axiosAuth";
 import { UserContext } from "../../App";
 
 function GrantorProfile(props) {
   const { state, dispatch } = useContext(UserContext);
-
-  const history = useHistory();
 
   const fetchGrantorProfile = (email) => {
     customAxios
@@ -27,9 +24,6 @@ function GrantorProfile(props) {
     } = props;
     fetchGrantorProfile(params?.grantorEmail);
   }, []);
-  // useEffect(() => {
-  //   if (Object.keys(state.user).length === 0) history.push("/");
-  // });
 
   return (
     <>
